@@ -15,6 +15,13 @@ const argv = require("yargs")
     describe: "output file",
     type: "string"
   })
+  .option("d", {
+    alias: "delimiter",
+    demandOption: false,
+    describe: "csv delimiter",
+    default: ",",
+    type: "string"
+  })
   .check(argv => {
     if (path.extname(argv.file).toUpperCase() !== ".XML")
       throw new Error("File must be an xml.");
@@ -29,15 +36,14 @@ const argv = require("yargs")
 
 const glossaryFile = argv.file;
 const output = argv.output;
+const delimiter = argv.delimiter;
 
 const { promises: fs, createWriteStream } = require("fs");
 const { pipeline, Readable } = require("stream");
 const xml2js = require("xml2js");
 const parser = new xml2js.Parser();
 const stringify = require("csv-stringify");
-const stringifier = stringify({
-  delimiter: ","
-});
+const stringifier = stringify({ delimiter });
 
 main();
 async function main() {
@@ -46,6 +52,7 @@ async function main() {
     const xmlParsed = await parser.parseStringPromise(xml);
 
     function* items() {
+        yield ['Term', 'Description']
       for ({ word, description } of xmlParsed.glossary.item)
         yield [word.join("").trim(), description.join("").trim()];
     }

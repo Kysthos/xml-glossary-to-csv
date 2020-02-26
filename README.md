@@ -9,7 +9,11 @@ Positionals:
   file  xml file to parse                                               [string]
 
 Options:
-  -o, --output   output file                                            [string]
-  -h, --help     Show help                                             [boolean]
-  -v, --version  Show version number                                   [boolean]
+  -o, --output     output file                                          [string]
+  -d, --delimiter  csv delimiter                         [string] [default: ","]
+  -h, --help       Show help                                           [boolean]
+  -v, --version    Show version number                                 [boolean]
 ```
+
+Example in the `test` folder.
+`node index.js ./test/Glossary.xml -o ./test/new-glossary.csv`
