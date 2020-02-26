@@ -52,7 +52,7 @@ async function main() {
     const xmlParsed = await parser.parseStringPromise(xml);
 
     function* items() {
-        yield ['Term', 'Description']
+        yield ['Term', 'Description'];
       for ({ word, description } of xmlParsed.glossary.item)
         yield [word.join("").trim(), description.join("").trim()];
     }
